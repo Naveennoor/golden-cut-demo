@@ -1,11 +1,26 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
+const title = "Golden Cut – Haarsalon in Hamburg-Harburg";
+const description =
+  "Golden Cut in Hamburg-Harburg: persönliche Beratung, Haarschnitt, Bartpflege und Styling. Unverbindlicher Website-Entwurf.";
+
 export const metadata: Metadata = {
-  title: "Golden Cut – Haarsalon in Hamburg-Harburg",
-  description:
-    "Unverbindlicher Website-Entwurf für Golden Cut, einen Haarsalon in Hamburg-Harburg.",
+  title,
+  description,
   applicationName: "Golden Cut",
+  openGraph: {
+    title,
+    description,
+    type: "website",
+    siteName: "Golden Cut",
+    locale: "de_DE",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
   appleWebApp: {
     capable: true,
     title: "Golden Cut",

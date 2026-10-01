@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { FormEvent, ReactNode } from "react";
 import { goldenCutConfig as config } from "@/lib/golden-cut-config";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 type IconName = "arrow" | "scissors" | "razor" | "sparkle" | "pin" | "phone";
 
@@ -86,6 +87,7 @@ function ArrowLink({
 export function GoldenCutSite() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const siteRef = useScrollReveal<HTMLElement>();
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -93,7 +95,7 @@ export function GoldenCutSite() {
   }
 
   return (
-    <main className="salon-site">
+    <main className="salon-site" ref={siteRef}>
       <header className="site-header">
         <a className="wordmark" href="#top" aria-label={`${config.business.name} – Startseite`}>
           <span className="wordmark-mark">G</span>
@@ -172,7 +174,7 @@ export function GoldenCutSite() {
       </section>
 
       <section className="services section-shell" id="leistungen" aria-labelledby="services-title">
-        <div className="section-intro">
+        <div className="section-intro reveal">
           <p className="eyebrow"><span className="eyebrow-line" />Was wir für dich tun</p>
           <h2 id="services-title">Dein Stil, <em>deine</em> Regeln.</h2>
           <p className="section-lead">
@@ -180,8 +182,8 @@ export function GoldenCutSite() {
           </p>
         </div>
         <div className="service-list">
-          {config.services.map((service) => (
-            <article className="service-card" key={service.name}>
+          {config.services.map((service, index) => (
+            <article className={`service-card reveal reveal-delay-${index + 1}`} key={service.name}>
               <div className="service-card-top">
                 <span className="service-number">{service.number}</span>
                 <span className="service-icon"><Icon name={service.icon} /></span>
@@ -202,11 +204,11 @@ export function GoldenCutSite() {
       </section>
 
       <section className="about section-shell" id="ueber-uns" aria-labelledby="about-title">
-        <div className="about-image">
+        <div className="about-image reveal">
           <img src={config.about.image.src} alt={config.about.image.alt} loading="lazy" />
           <span className="image-caption">Ein Raum für deinen Moment</span>
         </div>
-        <div className="about-copy">
+        <div className="about-copy reveal reveal-delay-1">
           <p className="eyebrow"><span className="eyebrow-line" />{config.about.eyebrow}</p>
           <h2 id="about-title">{config.about.title}</h2>
           {config.about.paragraphs.map((paragraph) => (
@@ -217,7 +219,7 @@ export function GoldenCutSite() {
       </section>
 
       <section className="gallery section-shell" id="galerie" aria-labelledby="gallery-title">
-        <div className="gallery-heading">
+        <div className="gallery-heading reveal">
           <div>
             <p className="eyebrow"><span className="eyebrow-line" />Inspiration</p>
             <h2 id="gallery-title">Looks, die<br /><em>bleiben.</em></h2>
@@ -225,8 +227,8 @@ export function GoldenCutSite() {
           <p className="gallery-intro">Ein kleiner Vorgeschmack auf die Stimmung, die dich erwartet.</p>
         </div>
         <div className="gallery-grid">
-          {config.gallery.map((image) => (
-            <figure className={`gallery-item ${image.className}`} key={image.src}>
+          {config.gallery.map((image, index) => (
+            <figure className={`gallery-item reveal reveal-delay-${index + 1} ${image.className}`} key={image.label}>
               <img src={image.src} alt={image.alt} loading="lazy" />
               <figcaption>{image.label}</figcaption>
             </figure>
@@ -240,11 +242,11 @@ export function GoldenCutSite() {
 
       <section className="visit" id="besuch" aria-labelledby="visit-title">
         <div className="visit-inner section-shell">
-          <div className="visit-heading">
+          <div className="visit-heading reveal">
             <p className="eyebrow eyebrow-light"><span className="eyebrow-line" />Komm vorbei</p>
             <h2 id="visit-title">Mitten in<br /><em>Harburg.</em></h2>
           </div>
-          <div className="visit-details">
+          <div className="visit-details reveal reveal-delay-1">
             <div className="detail-block">
               <span className="detail-icon"><Icon name="pin" /></span>
               <div>
@@ -273,12 +275,12 @@ export function GoldenCutSite() {
       </section>
 
       <section className="contact section-shell" id="kontakt" aria-labelledby="contact-title">
-        <div className="contact-heading">
+        <div className="contact-heading reveal">
           <p className="eyebrow"><span className="eyebrow-line" />{config.contact.eyebrow}</p>
           <h2 id="contact-title">{config.contact.title}</h2>
           <p>{config.contact.description}</p>
         </div>
-        <form className="contact-form" onSubmit={handleSubmit}>
+        <form className="contact-form reveal reveal-delay-1" onSubmit={handleSubmit}>
           <div className="form-row">
             <label><span>Name <b>*</b></span><input name="name" type="text" placeholder="Dein Name" required /></label>
             <label><span>Telefon <b>*</b></span><input name="phone" type="tel" placeholder="Deine Telefonnummer" required /></label>
